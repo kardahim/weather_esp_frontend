@@ -1,0 +1,16 @@
+// color schema
+$jet: #2F2F2F;
+$snow: #FCF7F8;
+$celestial_blue: #279AF1;
+
+@mixin tablet {
+    @media (max-width: 1024px) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (max-width: 599px) {
+        @content;
+    }
+}

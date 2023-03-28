@@ -1,0 +1,18 @@
+@import './variables.scss';
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.App {
+    min-height: 100vh;
+    background-color: $jet;
+    padding: 50px;
+
+    // center card
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,17 @@
+@import './variables.scss';
+
+.card {
+    background-color: $snow;
+    border-radius: 10px;
+
+    width: 80%;
+    min-height: 720px;
+
+    @include tablet() {
+        width: 90%;
+    }
+
+    @include mobile() {
+        width: 100%;
+    }
+}
