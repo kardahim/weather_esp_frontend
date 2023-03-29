@@ -1,8 +1,16 @@
 // color schema
 $jet: #2F2F2F;
+$jet-2: #292929;
 $snow: #FCF7F8;
 $celestial_blue: #279AF1;
 
+// fonts
+$fs-header: 35px;
+$fs-normal: 18px;
+$fs-sub: 16px;
+$fs-time: 80px;
+
+// dimensions
 @mixin tablet {
     @media (max-width: 1024px) {
         @content;
