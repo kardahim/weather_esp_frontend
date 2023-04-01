@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import '../styles/card.scss'
 import { ReactComponent as Sun } from '../assets/sun.svg';
 import axios from 'axios';
+import dayjs, { Dayjs } from 'dayjs';
 
 function Card() {
 
     const [geo, setGeo] = useState<any>({})
+    const [date, setDate] = useState<Dayjs>(dayjs())
 
     // set cords and address
     useEffect(() => {
@@ -33,16 +35,20 @@ function Card() {
         navigator.geolocation.getCurrentPosition(success, error, options)
     }, [])
 
+    // set time
+    useEffect(() => {
+        setTimeout(() => { setDate(dayjs()) }, 1000)
+    }, [date])
     return (
         <div className='card'>
             <div className='card__parameters'>
                 <div className='card__parameters__date'>
                     <div>{'Monday'}</div>
-                    <div>{'27 March 2023'}</div>
+                    <div>{date.format('DD MMMM YYYY')}</div>
                     <div>{geo?.address?.city ? geo?.address?.city : geo?.address?.village}, {geo?.address?.country}</div>
                 </div>
                 <div className='card__parameters__time'>
-                    {'18:00'}
+                    {date.format('HH:mm')}
                 </div>
                 <div className='card__parameters__data'>
                     <Sun className='card__parameters__data__sun' />
