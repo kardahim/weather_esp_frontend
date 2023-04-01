@@ -1,15 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/card.scss'
 import { ReactComponent as Sun } from '../assets/sun.svg';
+import axios from 'axios';
 
 function Card() {
+
+    const [geo, setGeo] = useState<any>({})
+
+    // set cords and address
+    useEffect(() => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+
+        function success(pos: any) {
+            const crd = pos.coords;
+            // pollub cords
+            // axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${51.23573679993434}&lon=${22.54812586350462}&accept-language=en`).then((response) => {
+            //     setGeo(response.data)
+            // })
+            axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${crd.latitude}&lon=${crd.longitude}&accept-language=en`).then((response) => {
+                setGeo(response.data)
+            })
+        }
+
+        function error(err: any) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error, options)
+    }, [])
+
     return (
         <div className='card'>
             <div className='card__parameters'>
                 <div className='card__parameters__date'>
                     <div>{'Monday'}</div>
                     <div>{'27 March 2023'}</div>
-                    <div>{'Lublin, Poland'}</div>
+                    <div>{geo?.address?.city ? geo?.address?.city : geo?.address?.village}, {geo?.address?.country}</div>
                 </div>
                 <div className='card__parameters__time'>
                     {'18:00'}
@@ -19,6 +49,7 @@ function Card() {
                     <div>
                         <div>{'Humidity: 40%'}</div>
                         <div>{'Temperature: 24°C'}</div>
+                        <div>{'Pressure: 1000hPa'}</div>
                     </div>
                 </div>
             </div>
