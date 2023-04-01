@@ -10,6 +10,9 @@ $fs-normal: 18px;
 $fs-sub: 16px;
 $fs-time: 80px;
 
+// paddings
+$card-padding: 80px;
+
 // dimensions
 @mixin tablet {
     @media (max-width: 1024px) {

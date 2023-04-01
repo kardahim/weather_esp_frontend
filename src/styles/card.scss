@@ -13,10 +13,10 @@
         width: 35%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         background-color: $jet-2;
-        padding: 50px;
+        padding: $card-padding 0 $card-padding 0;
 
         &__date {
             font-size: $fs-sub;
@@ -29,7 +29,6 @@
         &__time {
             font-size: $fs-time;
             font-weight: bold;
-            margin: 150px 0;
         }
 
         &__data {
@@ -50,5 +49,24 @@
     &__visualization {
         width: 65%;
         background-color: $snow;
+        text-align: center;
+        padding: $card-padding;
+
+        &__title {
+            font-size: $fs-header;
+            color: $jet-2;
+
+            span:nth-child(2) {
+                margin: 0 20px;
+            }
+
+            span:nth-child(odd) {
+                &:hover {
+                    cursor: pointer;
+                    color: $celestial_blue;
+                    transition: 0.2s;
+                }
+            }
+        }
     }
 }

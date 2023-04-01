@@ -8,6 +8,8 @@ function Card() {
 
     const [geo, setGeo] = useState<any>({})
     const [date, setDate] = useState<Dayjs>(dayjs())
+    const dataSetNames: string[] = ['Humidity', 'Temperature', 'Pressure']
+    const [currentDataSet, setCurrentDataSet] = useState<number>(0)
 
     // set cords and address
     useEffect(() => {
@@ -39,6 +41,17 @@ function Card() {
     useEffect(() => {
         setTimeout(() => { setDate(dayjs()) }, 1000)
     }, [date])
+
+    const nextDataset = () => {
+        if (currentDataSet === 2) setCurrentDataSet(0)
+        else setCurrentDataSet(currentDataSet + 1)
+    }
+
+    const previousDataset = () => {
+        if (currentDataSet === 0) setCurrentDataSet(2)
+        else setCurrentDataSet(currentDataSet - 1)
+    }
+
     return (
         <div className='card'>
             <div className='card__parameters'>
@@ -59,7 +72,14 @@ function Card() {
                     </div>
                 </div>
             </div>
-            <div className='card__visualization'></div>
+            <div className='card__visualization'>
+                <h1 className='card__visualization__title'>
+                    <span onClick={previousDataset}>🡠</span>
+                    <span>{dataSetNames[currentDataSet]}</span>
+                    <span onClick={nextDataset}>🡢</span>
+                </h1>
+                {/* chart */}
+            </div>
         </div>
     )
 }
