@@ -51,6 +51,9 @@
         background-color: $snow;
         text-align: center;
         padding: $card-padding;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
 
         &__title {
             font-size: $fs-header;

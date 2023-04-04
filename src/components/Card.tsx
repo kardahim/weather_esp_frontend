@@ -3,13 +3,23 @@ import '../styles/card.scss'
 import { ReactComponent as Sun } from '../assets/sun.svg';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
+// chart imports
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Tooltip,
+    Filler,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
 function Card() {
-
     const [geo, setGeo] = useState<any>({})
     const [date, setDate] = useState<Dayjs>(dayjs())
-    const dataSetNames: string[] = ['Humidity', 'Temperature', 'Pressure']
-    const [currentDataSet, setCurrentDataSet] = useState<number>(0)
+    const datasetNames: string[] = ['Humidity', 'Temperature', 'Pressure']
+    const [currentDataset, setCurrentDataset] = useState<number>(0)
 
     // set cords and address
     useEffect(() => {
@@ -42,15 +52,55 @@ function Card() {
         setTimeout(() => { setDate(dayjs()) }, 1000)
     }, [date])
 
+    // change dataset
     const nextDataset = () => {
-        if (currentDataSet === 2) setCurrentDataSet(0)
-        else setCurrentDataSet(currentDataSet + 1)
+        if (currentDataset === 2) setCurrentDataset(0)
+        else setCurrentDataset(currentDataset + 1)
     }
 
     const previousDataset = () => {
-        if (currentDataSet === 0) setCurrentDataSet(2)
-        else setCurrentDataSet(currentDataSet - 1)
+        if (currentDataset === 0) setCurrentDataset(2)
+        else setCurrentDataset(currentDataset - 1)
     }
+
+    // chart config
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Tooltip,
+        Filler,
+    );
+
+    const options = {
+        responsive: true,
+    };
+
+    const data = {
+        labels: [
+            '09:01',
+            '09:02',
+            '09:03',
+            '09:04',
+            '09:05',
+            '09:06',
+            '09:07',
+            '09:08',
+            '09:09',
+            '09:10'
+        ],
+        datasets: [
+            {
+                fill: true,
+                label: datasetNames[currentDataset],
+                data: [40, 40, 40, 40.2, 40.2, 40.2, 40.5, 40.5, 40.1, 40],
+                borderColor: '#279AF1',
+                backgroundColor: 'rgba(39, 154, 241, 0.5)',
+                tension: 0.25
+            },
+        ],
+    };
 
     return (
         <div className='card'>
@@ -66,6 +116,7 @@ function Card() {
                 <div className='card__parameters__data'>
                     <Sun className='card__parameters__data__sun' />
                     <div>
+                        {/* TODO add avg data or last measure*/}
                         <div>{'Humidity: 40%'}</div>
                         <div>{'Temperature: 24°C'}</div>
                         <div>{'Pressure: 1000hPa'}</div>
@@ -75,10 +126,11 @@ function Card() {
             <div className='card__visualization'>
                 <h1 className='card__visualization__title'>
                     <span onClick={previousDataset}>🡠</span>
-                    <span>{dataSetNames[currentDataSet]}</span>
+                    <span>{datasetNames[currentDataset]}</span>
                     <span onClick={nextDataset}>🡢</span>
                 </h1>
-                {/* chart */}
+                {/* TODO add chart */}
+                <Line options={options} data={data} />
             </div>
         </div>
     )
