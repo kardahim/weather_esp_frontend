@@ -9,6 +9,18 @@
     display: flex;
     overflow: hidden;
 
+    @include medium-size() {
+        font-size: $fs-sub;
+    }
+
+    @include tablet() {
+        flex-direction: column;
+    }
+
+    @include mobile() {
+        width: 95%;
+    }
+
     &__parameters {
         width: 35%;
         display: flex;
@@ -16,19 +28,49 @@
         justify-content: space-between;
         align-items: center;
         background-color: $jet-2;
-        padding: $card-padding 0 $card-padding 0;
+        padding: $card-padding 0;
+
+        @include tablet() {
+            width: 100%;
+            height: 375px;
+            padding: calc(#{$card-padding/2}) 0;
+        }
 
         &__date {
             font-size: $fs-sub;
 
+            @include tablet() {
+                font-size: calc(#{$fs-sub - 1});
+            }
+
+            @include mobile() {
+                font-size: calc(#{$fs-sub - 2});
+            }
+
             div:nth-child(1) {
                 font-size: $fs-header;
+
+                @include tablet() {
+                    font-size: calc(#{$fs-header - 5});
+                }
+
+                @include mobile() {
+                    font-size: calc(#{$fs-header - 7});
+                }
             }
         }
 
         &__time {
             font-size: $fs-time;
             font-weight: bold;
+
+            @include tablet() {
+                font-size: calc(#{$fs-time - 10});
+            }
+
+            @include mobile() {
+                font-size: calc(#{$fs-time - 20});
+            }
         }
 
         &__data {
@@ -38,10 +80,23 @@
             &__sun {
                 width: 100px;
                 height: auto;
+
+                @include tablet() {
+                    width: 60px;
+                }
             }
 
             div {
                 margin-left: 20px;
+
+                @include medium-size() {
+                    margin-left: 10px;
+                }
+
+                @include tablet() {
+                    margin-left: 20px;
+
+                }
             }
         }
     }
@@ -55,15 +110,44 @@
         justify-content: space-between;
         flex-direction: column;
 
+        @include medium-size() {
+            padding: $card-padding calc(#{$card-padding} /2);
+        }
+
+        @include tablet() {
+            width: 100%;
+            min-height: 500px;
+        }
+
+        @include mobile() {
+            padding: calc(#{$card-padding} /2) 5px;
+        }
+
         &__title {
             font-size: $fs-header;
             color: $jet-2;
+
+            @include tablet() {
+                font-size: calc(#{$fs-header - 5});
+            }
+
+            @include mobile() {
+                font-size: calc(#{$fs-header - 7});
+            }
 
             span:nth-child(2) {
                 margin: 0 20px;
                 display: inline-block;
                 text-align: center;
                 width: 180px;
+
+                @include tablet() {
+                    width: 155px;
+                }
+
+                @include mobile() {
+                    width: 145px;
+                }
             }
 
             span:nth-child(odd) {

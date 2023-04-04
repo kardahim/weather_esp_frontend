@@ -11,6 +11,10 @@
     background-color: $jet;
     padding: 50px;
 
+    @include mobile() {
+        padding: 0;
+    }
+
     // center card
     display: flex;
     justify-content: center;
