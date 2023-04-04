@@ -134,7 +134,6 @@ function Card() {
                     <span>{datasetNames[currentDataset]}</span>
                     <span onClick={nextDataset}>🡢</span>
                 </h1>
-                {/* TODO add chart */}
                 <Line options={options} data={data} />
             </div>
         </div>
