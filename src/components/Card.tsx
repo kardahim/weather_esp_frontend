@@ -19,6 +19,11 @@ function Card() {
     const [geo, setGeo] = useState<any>({})
     const [date, setDate] = useState<Dayjs>(dayjs())
     const datasetNames: string[] = ['Humidity', 'Temperature', 'Pressure']
+    const [datasets, setDatasets] = useState([
+        [40, 40, 40, 40.1, 40.1, 40.2, 40.2, 40.1, 40.3, 40.3],
+        [24, 24, 24, 24, 24, 24, 24, 24.4, 24.4, 24.3],
+        [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+    ])
     const [currentDataset, setCurrentDataset] = useState<number>(0)
 
     // set cords and address
@@ -94,7 +99,7 @@ function Card() {
             {
                 fill: true,
                 label: datasetNames[currentDataset],
-                data: [40, 40, 40, 40.2, 40.2, 40.2, 40.5, 40.5, 40.1, 40],
+                data: datasets[currentDataset],
                 borderColor: '#279AF1',
                 backgroundColor: 'rgba(39, 154, 241, 0.5)',
                 tension: 0.25
