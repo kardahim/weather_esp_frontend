@@ -19,12 +19,12 @@ function Card() {
     const [geo, setGeo] = useState<any>({})
     const [date, setDate] = useState<Dayjs>(dayjs())
     const datasetNames: string[] = ['Humidity', 'Temperature', 'Pressure']
-    const [datasets, setDatasets] = useState([
-        [40, 40, 40, 40.1, 40.1, 40.2, 40.2, 40.1, 40.3, 40.3],
-        [24, 24, 24, 24, 24, 24, 24, 24.4, 24.4, 24.3],
-        [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
+    const [datasets, setDatasets] = useState<any[]>([
+        [], [], []
     ])
+    const [timestamps, setTimestamps] = useState<string[]>([])
     const [currentDataset, setCurrentDataset] = useState<number>(0)
+    const [weatherData, setWeatherData] = useState<any>([]) // delete?
 
     // set cords and address
     useEffect(() => {
@@ -42,6 +42,7 @@ function Card() {
             // })
             axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${crd.latitude}&lon=${crd.longitude}&accept-language=en`).then((response) => {
                 setGeo(response.data)
+                // console.log(response.data)
             })
         }
 
@@ -52,10 +53,20 @@ function Card() {
         navigator.geolocation.getCurrentPosition(success, error, options)
     }, [])
 
-    // set time
+    // set data
     useEffect(() => {
-        setTimeout(() => { setDate(dayjs()) }, 1000)
-    }, [date])
+        setTimeout(() => {
+            setDate(dayjs())
+            setTimestamps((old) => [...old, dayjs().format('hh:mm:ss')])
+            axios.get(`http://192.168.67.53/data`).then((response) => {
+                const newDatasets = [...datasets]
+                newDatasets[1].push(response.data[0].value)
+                newDatasets[0].push(response.data[1].value)
+                newDatasets[2].push(response.data[2].value)
+                setDatasets(newDatasets)
+            })
+        }, 5000)
+    }, [timestamps])
 
     // change dataset
     const nextDataset = () => {
@@ -83,18 +94,7 @@ function Card() {
     };
 
     const data = {
-        labels: [
-            '09:01',
-            '09:02',
-            '09:03',
-            '09:04',
-            '09:05',
-            '09:06',
-            '09:07',
-            '09:08',
-            '09:09',
-            '09:10'
-        ],
+        labels: timestamps,
         datasets: [
             {
                 fill: true,
@@ -113,6 +113,7 @@ function Card() {
                 <div className='card__parameters__date'>
                     <div>{'Monday'}</div>
                     <div>{date.format('DD MMMM YYYY')}</div>
+                    {/* TODO add state (city,town,village, unknown) */}
                     <div>{geo?.address?.city ? geo?.address?.city : geo?.address?.village}, {geo?.address?.country}</div>
                 </div>
                 <div className='card__parameters__time'>
