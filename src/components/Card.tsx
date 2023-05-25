@@ -24,7 +24,6 @@ function Card() {
     ])
     const [timestamps, setTimestamps] = useState<string[]>([])
     const [currentDataset, setCurrentDataset] = useState<number>(0)
-    const [weatherData, setWeatherData] = useState<any>([]) // delete?
 
     // set cords and address
     useEffect(() => {
@@ -58,7 +57,7 @@ function Card() {
         setTimeout(() => {
             setDate(dayjs())
             setTimestamps((old) => [...old, dayjs().format('hh:mm:ss')])
-            axios.get(`http://192.168.67.53/data`).then((response) => {
+            axios.get(`http://192.168.153.53/data`).then((response) => {
                 const newDatasets = [...datasets]
                 newDatasets[1].push(response.data[0].value)
                 newDatasets[0].push(response.data[1].value)
@@ -113,7 +112,6 @@ function Card() {
                 <div className='card__parameters__date'>
                     <div>{'Monday'}</div>
                     <div>{date.format('DD MMMM YYYY')}</div>
-                    {/* TODO add state (city,town,village, unknown) */}
                     <div>{geo?.address?.city ? geo?.address?.city : geo?.address?.village}, {geo?.address?.country}</div>
                 </div>
                 <div className='card__parameters__time'>
@@ -122,10 +120,9 @@ function Card() {
                 <div className='card__parameters__data'>
                     <Sun className='card__parameters__data__sun' />
                     <div>
-                        {/* TODO add avg data or last measure*/}
-                        <div>{'Humidity: 40%'}</div>
-                        <div>{'Temperature: 24°C'}</div>
-                        <div>{'Pressure: 1000hPa'}</div>
+                        <div>Humidity: {(datasets[0].reduce((a: any, b: any) => a + b, 0) / datasets[0].length || 0).toFixed(2)}%</div>
+                        <div>Temperature: {(datasets[1].reduce((a: any, b: any) => a + b, 0) / datasets[1].length || 0).toFixed(2)}°C</div>
+                        <div>Pressure: {(datasets[2].reduce((a: any, b: any) => a + b, 0) / datasets[2].length || 0).toFixed(2)}hPa</div>
                     </div>
                 </div>
             </div>
