@@ -110,7 +110,7 @@ function Card() {
         <div className='card'>
             <div className='card__parameters'>
                 <div className='card__parameters__date'>
-                    <div>{'Monday'}</div>
+                    <div>{date.format('dddd')}</div>
                     <div>{date.format('DD MMMM YYYY')}</div>
                     <div>{geo?.address?.city ? geo?.address?.city : geo?.address?.village}, {geo?.address?.country}</div>
                 </div>
